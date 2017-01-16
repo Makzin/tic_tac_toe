@@ -64,7 +64,7 @@ h3 {
   margin-left: 20px
 }
 
-.tile {
+.tile  {
   width: 30%;
   height: 30%;
   background-color: #001011;
@@ -88,6 +88,14 @@ span {
 
 .o {
   color: #FBFFF2;
+  font-size: 150px;
+  line-height: 150px;
+}
+
+.x {
+  color: #757780;
+  font-size: 150px;
+  line-height: 150px;
 }
 
 
