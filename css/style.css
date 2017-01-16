@@ -7,6 +7,16 @@
 
 }
 
+h1 {
+  font-size: 50px;
+}
+
+h2 {
+  font-size: 40px
+}
+h3 {
+  font-size: 25px
+}
 
 .container {
   width: 600px;
@@ -18,6 +28,42 @@
   flex-wrap: wrap;
 }
 
+.introScreen {
+  width: 95%;
+  height: 95%;
+  background-color: #001011;
+  border-radius: inherit;
+  margin: auto;
+  color: #FBFFF2;
+  display: none;
+}
+
+#playTileX {
+  width: 150px;
+  height: 150px;
+  background-color: #757780;
+  display: inline-block;
+  border-radius: 20px;
+  margin: 10px;
+  line-height: 150px;
+  font-size: 100px;
+  margin: auto;
+  margin-top: 20px;
+}
+
+#playTileO {
+  width: 150px;
+  height: 150px;
+  background-color: #757780;
+  display: inline-block;
+  border-radius: 20px;
+  margin: 10px;
+  line-height: 150px;
+  font-size: 100px;
+  margin: auto;
+  margin-left: 20px
+}
+
 .tile {
   width: 30%;
   height: 30%;
@@ -27,7 +73,9 @@
   border-radius: 20px;
   margin: 10px;
   line-height: 160px;
+  display: none;
 }
+
 
 span {
   width: 100%;
@@ -40,4 +88,10 @@ span {
 
 .o {
   color: #FBFFF2;
+}
+
+
+.disclaimer {
+  margin: auto;
+  margin-top: 100px;
 }
