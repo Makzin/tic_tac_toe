@@ -7,16 +7,15 @@ var player;
 var tileArray = [];
 var playCount = 0;
 var result = false;
+var gameInProgress = false;
 
 $('#playTileX').on('click', function() {
-    console.log('i clicked the x button')
     player = 'x';
     computer = 'o';
     startGame();
 })
 
 $('#playTileO').on('click', function() {
-    console.log('i clicked the o button')
     player = 'o';
     computer = 'x';
     startGame();
@@ -27,21 +26,31 @@ $('.tile').on('click', function() {
 })
 
 $('.tryAgain').on('click', function() {
-    newGame();
+    if (gameInProgress == true) {
+        newGame();
+    } else {
+        return;
+    }
 })
 
 $('.tryAgain button').on('click', function() {
-    newGame();
+    if (gameInProgress == true) {
+        newGame();
+    } else {
+        return;
+    }
 })
 
 
 function startGame() {
-    console.log('game starts!');
+    gameInProgress = true;
     $('.introScreen').fadeOut(200);
     $('.tile').fadeIn(1000);
+    setTimeout(computersTurn, 500)
 }
 
 function playersTurn(arg) {
+    gameInProgress = true;
     var myInput = $(arg).text();
     if (!myInput) {
         $(arg).text(player).addClass(player);
@@ -51,10 +60,7 @@ function playersTurn(arg) {
         checkIfWin(player);
         if (playCount > 5) {
             console.log('game should be over');
-
-        } else if (result == true) {
-            checkIfWin(player);
-        } else {
+        } else if (gameInProgress == true) {
             setTimeout(computersTurn, 500);
         }
     }
@@ -62,6 +68,7 @@ function playersTurn(arg) {
 
 
 function computersTurn() {
+    gameInProgress = true;
     var turn = Math.floor(Math.random() * (10 - 1) + 1);
     if (tileArray.indexOf(turn) > -1) {
         computersTurn();
@@ -76,7 +83,7 @@ function computersTurn() {
 
 
 function checkIfWin(move) {
-
+    var tileEmpty = true;
     //all possible options in an array:
     var optionArray = [
         [1, 2, 3],
@@ -89,20 +96,43 @@ function checkIfWin(move) {
         [3, 5, 7]
     ]
 
+    for (var i = 0; i <= 8; i++) {
+        if ($('#tile' + tileArray[i]).text() != '') {
+            tileEmpty = false;
+        } else {
+            tileEmpty = true;
+        }
+    }
+
+    if (tileEmpty == false) {
+        gameInProgress = false;
+        setTimeout(function() {
+            announceDraw()
+        }, 1000);
+    }
+
+
+
     for (var i = 0; i < optionArray.length; i++) {
         if ($('#tile' + optionArray[i][0]).text() == move && $('#tile' + optionArray[i][1]).text() == move && $('#tile' + optionArray[i][2]).text() == move) {
             result = true;
+            gameInProgress = false;
             $('#tile' + optionArray[i][0]).addClass('winner');
             $('#tile' + optionArray[i][1]).addClass('winner');
             $('#tile' + optionArray[i][2]).addClass('winner');
             setTimeout(function() {
                 announceWinner(move)
             }, 1000);
+        } else if (tileArray.sort() == [1, 2, 3, 4, 5, 6, 7, 8, 9]) {
+            gameInProgress = false;
+            announceDraw();
         }
     }
+
 }
 
 function announceWinner(arg) {
+    gameInProgress = false;
     playCount = 0;
     $('.tile').fadeOut();
     setTimeout(function() {
@@ -111,13 +141,15 @@ function announceWinner(arg) {
     $('.winScreen').text(arg + ' won!');
     setTimeout(function() {
         $('.winScreen').text('Game Restarting');
+        $('.winScreen').fadeOut(1000);
     }, 3000)
     setTimeout(function() {
         newGame();
-    }, 5000)
+    }, 4000)
 }
 
 function announceDraw() {
+    gameInProgress = false;
     playCount = 0;
     $('.tile').fadeOut();
     setTimeout(function() {
@@ -126,20 +158,21 @@ function announceDraw() {
     $('.winScreen').text("It's a draw!");
     setTimeout(function() {
         $('.winScreen').text('Game Restarting');
+        $('.winScreen').fadeOut(1000);
     }, 3000)
     setTimeout(function() {
         newGame();
-    }, 5000)
+    }, 4000)
 }
 
 function newGame() {
-    $('.winScreen').fadeOut();
     player = '';
     tileArray = [];
     playCount = 0;
     result = false;
     $('.tile').removeClass('winner');
     $('.tile').text('');
+    $('.tile').fadeOut();
     $('.introScreen').fadeIn(600);
 
 }
